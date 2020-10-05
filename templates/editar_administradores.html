@@ -1,0 +1,50 @@
+{% extends "menu_administradores_template.html" %}
+{% block content %}
+    {{ super() }}
+{% endblock %}
+
+{% if isactive_dashboard %}
+    class="is-active"
+{% endif %}
+
+{% block main %}
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="{{ url_for("menu_dashboard") }}">Home</a></li>
+            <li class="is-active"><a href="{{ url_for("listar_administradores") }}" aria-current="page">Editar Administradores</a></li>
+          </ul>
+        </nav>
+
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <div class="title">Editar Administradores</div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="columns is-multiline">
+          <div class="column is-6">
+            <article class="message is-dark">
+              <div class="message-header">
+                <p>Chart</p>
+              </div>
+              <div class="message-body">
+                <div id="chartLine" style="width: 100%;"></div>
+              </div>
+            </article>
+          </div>
+          <div class="column is-6">
+            <article class="message is-dark">
+              <div class="message-header">
+                <p>Chart</p>
+              </div>
+              <div class="message-body">
+                <div id="chartScatter" style="width: 100%;"></div>
+              </div>
+            </article>
+          </div>
+
+{% endblock %}

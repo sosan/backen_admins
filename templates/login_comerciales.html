@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Admin</title>
+</head>
+<body>
+    <main>
+        <h1>LOGIN COMERCIALES</h1>
+        <H2>Ejemplo</H2>
+        <h3>usuario: soniacomer / password: 1234</h3>
+            <form action="{{ url_for("recibir_comerciales_login") }}" method="post">
+                Usuario: <input type="text" name="usuario" value="" placeholder="usuario">
+                Password: <input type="text" name="password" value="" placeholder="password">
+                <button type="submit">LOGIN</button>
+            </form>
+    </main>
+</body>
+</html>

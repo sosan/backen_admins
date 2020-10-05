@@ -1,0 +1,586 @@
+{% extends "base_menu_admin.html" %}
+
+{% block titulo %}AÑADIR VIVIENDA{% endblock %}
+
+{% block footer_alta_piso %}
+    <div class="col-xs-5 show_clicked_abajo text-center">
+         <a href="{{ url_for("alta_piso") }}">
+        <span class="glyphicon glyphicon-plus glyphicon_font_footer"></span>
+        <div class="pageTitleC ">AÑADIR</div>
+             </a>
+    </div>
+{% endblock %}
+
+
+{% block contenido_central %}
+    <div class="container_centering">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-5 col-lg-5">
+                    <div id="wizard_container">
+                            <form id="wrapped" method="POST" autocomplete="off" enctype="multipart/form-data">
+                                <input type="hidden" name="nombre" value="{{ session["nombre"] }}">
+                                <div id="mostrar_resultado"></div>
+{#<h4 class="alert alert-success quitadotop" id="success-alert" style="display: block; opacity: 0;"></h4>#}
+
+{#                                {% if session["mensajeerror"] == 0%}#}
+{#                                {% if mensajeerror == 0 %}#}
+{#                                    <h3 class="alert alert-success quitadotop" id="success-alert" style="display: block; opacity: 0;">#}
+{#                                    &nbsp;#}
+{#                                    </h3>#}
+{#                                {% elif mensajeerror == 2 %}#}
+{#                                    <h3 class=" label-danger quitadotop" id="success-alert">YA EXISTE EL INMUEBLE</h3>#}
+{#                                {% elif mensajeerror == 1 %}#}
+{#                                    <h3 class="  label-success quitadotop" id="success-alert">#}
+{#                                        DADO DE ALTA CORRECTAMENTE#}
+{##}
+{#                                        {% if anterior_calle and anterior_numero %}#}
+{#                                            <p>Calle: {{ anterior_calle }} Numero: {{ anterior_numero }}</p>#}
+{#                                        {% endif %}#}
+{#                                    </h3>#}
+{##}
+{##}
+{#                                {% endif %}#}
+
+
+	                            <div id="middle-wizard">
+	                                <div class="step">
+                                        <h3 class="main_question">
+                                            <strong class="">1 de 5</strong>
+                                            <p class="titulo">TIPO DE VIVIENDA</p>
+                                        </h3>
+	                                    <div class="review_block">
+                                              <ul>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+
+                                                        {% if tipocasa == "piso" %}
+                                                            <input type="radio" id="piso" name="tipocasa" class="required valid" checked value="piso" >
+                                                        {% else %}
+                                                            <input type="radio" id="piso" name="tipocasa" class="required" value="piso" >
+                                                        {% endif %}
+
+                                                        <label class="radio" for="piso"></label>
+                                                        <label for="piso" class="wrapper">Piso</label>
+
+
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+                                                        {% if tipocasa == "chalet" %}
+                                                            <input type="radio" id="chalet" name="tipocasa" class="required valid" checked value="chalet">
+                                                        {% else %}
+                                                            <input type="radio" id="chalet" name="tipocasa" class="required" value="chalet">
+                                                        {% endif %}
+                                                        <label class="radio" for="chalet"></label>
+                                                        <label for="chalet" class="wrapper">Chalet</label>
+                                                    </div>
+                                                </li>
+                                                  <li>
+                                                      <div class="checkbox_radio_container">
+                                                          {% if tipocasa == "casarural" %}
+                                                              <input type="radio" id="casarural" name="tipocasa" class="required valid" checked value="casarural">
+                                                          {% else %}
+                                                              <input type="radio" id="casarural" name="tipocasa" class="required" value="casarural">
+                                                          {% endif %}
+                                                        <label class="radio" for="casarural"></label>
+                                                        <label for="casarural" class="wrapper">Casa Rural</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+                                                        {% if tipocasa == "oficina" %}
+                                                            <input type="radio" id="oficina" name="tipocasa" class="required valid" checked value="oficina" >
+                                                        {% else %}
+                                                            <input type="radio" id="oficina" name="tipocasa" class="required" value="oficina" >
+                                                        {% endif %}
+                                                        <label class="radio" for="oficina"></label>
+                                                        <label for="oficina" class="wrapper">Oficina</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+	                                    </div>
+	                                </div>
+
+                                    <div class="step">
+                                         <h3 class="main_question">
+                                            <strong class="">2 de 5</strong>
+                                            <p class="titulo">LOCALIZACION VIVIENDA</p>
+                                        </h3>
+                                        <div class="form-group">
+	                                        <label for="calle">Calle</label>
+                                            <input type="text" name="calle" id="calle" value="{{ calle }}" class="form-control required">
+                                            <button type="button" name="obtener_calle" value="1" onclick="obtenercalle()">
+
+                                                OBTENER POSICION</button>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="numero">Numero</label>
+                                            <input type="text" name="numero" id="numero" value="{{ numero }}" class="form-control required">
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="cp">Codigo Postal</label>
+                                            <input type="number" name="cp" id="cp" value="{{ cp }}" class="form-control required">
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="localidad">Localidad</label>
+                                            <input type="text" name="localidad" id="localidad" value="{{ localidad }}" class="form-control required">
+	                                    </div>
+                                    </div>
+                                    <div class="step">
+                                        <h3 class="main_question">
+                                            <strong class="">3 de 5</strong>
+                                            <p class="titulo">DATOS DUEÑO</p>
+                                        </h3>
+                                        <div class="form-group">
+	                                        <label for="dueno">Dueño</label>
+                                            <input type="text" name="dueno" id="dueno" value="{{ dueno }}" class="form-control required">
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="wasap">Whatsapp</label>
+                                            <input type="text" name="wasap" id="wasap" value="{{ wasap }}" class="form-control required">
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="telefonodueno">Telefono</label>
+                                            <input type="text" name="telefonodueno" id="telefonodueno" value="{{ telefonodueno }}" class="form-control required">
+	                                    </div>
+
+
+                                        <div class="form-group">
+	                                        <label for="calledueno">Calle</label>
+                                            <input type="text" name="calledueno" id="calledueno" value="{{ calledueno }}" class="form-control required">
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="numerodueno">Numero</label>
+                                            <input type="text" name="numerodueno" id="numerodueno" value="{{ numerodueno }}" class="form-control required">
+	                                    </div>
+                                    </div>
+
+                                    <div class="step">
+
+                                        <h3 class="main_question">
+                                            <strong class="">4 de 5</strong>
+                                            <p class="titulo">DATOS VIVIENDA</p>
+                                        </h3>
+
+                                        <div class="review_block">
+	                                        <ul>
+	                                            <li>
+	                                                <div class="checkbox_radio_container">
+                                                    {% if tiponegocio_alquiler %}
+                                                            <input type="checkbox" id="alquiler" name="tiponegocio_alquiler" class="valid" checked value="alquiler">
+                                                    {% endif %}
+                                                    <input type="checkbox" id="alquiler" name="tiponegocio_alquiler" class="" value="alquiler">
+{#	                                                    <input type="checkbox" id="alquiler" name="tiponegocio" class="required" value="alquiler" onchange="getVals(this, 'tiponegocio');">#}
+	                                                    <label class="checkbox" for="alquiler"></label>
+	                                                    <label for="alquiler" class="wrapper">Alquiler</label>
+	                                                </div>
+	                                            </li>
+	                                            <li>
+	                                                <div class="checkbox_radio_container">
+                                                    {% if tiponegocio_venta %}
+                                                            <input type="checkbox" id="venta" name="tiponegocio_venta" class=" valid" checked value="venta" >
+                                                    {% endif %}
+                                                        <input type="checkbox" id="venta" name="tiponegocio_venta" class="" value="venta" >
+	                                                    <label class="checkbox" for="venta"></label>
+	                                                    <label for="venta" class="wrapper">Venta</label>
+	                                                </div>
+	                                            </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="form-group">
+	                                        <label for="precioalquiler">Precio Alquiler</label>
+                                            <input type="number" name="precioalquiler" id="precioalquiler" value="{{ precioalquiler }}" class="form-control">
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="precioventa">Precio Venta</label>
+                                            <input type="number" name="precioventa" id="precioventa" value="{{ precioventa }}" class="form-control">
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="totalmetros">Total Metros</label>
+                                            <input type="number" name="totalmetros" id="totalmetros" value="{{ totalmetros }}" class="form-control required">
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="habitaciones">Habitaciones</label>
+                                            <input type="number" name="habitaciones" id="habitaciones" value="{{ habitaciones }}" class="form-control required">
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="banos">Baños</label>
+                                            <input type="number" name="banos" id="banos" value="{{ banos }}" class="form-control required">
+	                                    </div>
+
+
+                                    </div>
+
+	                                <div class="submit step">
+                                        <h3 class="main_question">
+                                            <strong class="">5 de 5</strong>
+                                            <p class="titulo">FOTOS VIVIENDA</p>
+                                        </h3>
+                                        <div class="form-group">
+                                                <div class="row files" id="files1">
+                                                    <label>Fotos casa:</label>
+                                                    <span class="btn btn-default btn-file">Seleccionar
+                                                        <input type="file" name="files1" accept="image/*" multiple>
+                                                    </span>
+                                                    <br><br><br>
+                                                    <ul class="fileList">
+                                                    </ul>
+                                                </div>
+                                        </div>
+	                                </div>
+
+	                            </div>
+	                            <div id="bottom-wizard">
+	                                <button type="button" name="backward" class="backward">Anterior</button>
+	                                <button type="button" name="forward" id="forward" class="forward">Siguiente</button>
+	                                <button type="button"  name="process" id="process" class="submit">Enviar</button>
+	                            </div>
+
+                            <br><br>
+                                {% if latitude_gps %}
+                                <input type="text" id="latitude_gps" name="latitude_gps" value="{{ latitude_gps }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="latitude_gps" name="latitude_gps" value="" class="form-control">
+                                {% endif %}
+
+                                {% if longitude_gps %}
+                                <input type="text" id="longitude_gps" name="longitude_gps" value="{{ longitude_gps }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="longitude_gps" name="longitude_gps" value="" class="form-control">
+                                {% endif %}
+
+                                {% if precision %}
+                                <input type="text" id="precision" name="precision" value="{{ precision }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="precision" name="precision" value="" class="form-control">
+                                {% endif %}
+
+
+	                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+
+    $(document).ready(showPosition());
+
+
+    function showPosition()
+    {
+
+        if(navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(function(position)
+            {
+                document.getElementById("latitude_gps").value =  position.coords.latitude.toString();
+                document.getElementById("longitude_gps").value =  position.coords.longitude.toString() ;
+                document.getElementById("precision").value = position.coords.accuracy.toString() + " metros";
+
+
+            }, function(error)
+            {
+
+                switch(error.code)
+                {
+                    case error.PERMISSION_DENIED:
+                         document.getElementById("latitude_gps").innerHTML = "User denied the request for Geolocation.";
+                    break;
+                    case error.POSITION_UNAVAILABLE:
+                         document.getElementById("latitude_gps").innerHTML = "Location information is unavailable.";
+                    break;
+                    case error.TIMEOUT:
+                         document.getElementById("latitude_gps").innerHTML = "The request to get user location timed out.";
+                    break;
+                    default:
+                         document.getElementById("latitude_gps").innerHTML = "An unknown error occurred.";
+                    break;
+                }
+
+            }, {maximumAge:10000, timeout:5000, enableHighAccuracy: true});
+
+        } else {
+            alert("Sorry, your browser does not support HTML5 geolocation.");
+        }
+    }
+
+    let currentposition = 0
+    $("#forward").click(function (e)
+    {
+        e.preventDefault();
+        currentposition++;
+        if (currentposition >= 4)
+        {
+            currentposition = 4;
+        }
+
+        console.log("next"+ currentposition);
+
+    });
+
+    $.fn.fileUploader = function (filesToUpload, sectionIdentifier)
+    {
+        var fileIdCounter = 0;
+
+        this.closest(".files").change(function (evt)
+        {
+
+            var output = [];
+            var promises = [];
+
+            for (var i = 0; i < evt.target.files.length; i++)
+            {
+
+                let filePromise = new Promise(resolve =>
+                {
+                    console.log("promise inside=>");
+                    let reader = new FileReader();
+                    reader.readAsDataURL(evt.target.files[i]);
+                    
+                    reader.onload = () => resolve(reader.result);
+                    
+                });
+                promises.push(filePromise, evt.target.files[i].name, evt.target.files[i].size);
+
+            }
+
+
+            Promise.all(promises).then(fileContents =>
+            {
+
+                for (var i = 0; i < fileContents.length; i=i+3)
+                {
+                    fileIdCounter++;
+                    var fileId = sectionIdentifier + fileIdCounter;
+
+                    filesToUpload.push({
+                        id: fileId,
+                        filename: fileContents[i + 1],
+                        datafile: fileContents[i + 0]
+                    });
+
+                    var removeButton = '<button type="button" class="removeFile btn btn-danger" data-fileid="' + fileId + '"> Quitar </button><br><br>';
+                    {#var renameButton = '<br><br><button type="button" class="renameFile btn btn-warning" data-fileid="' + fileId + '">Renombrar</button>';#}
+                    let size = "";
+                    if (fileContents[i + 2] === 0)
+                    {
+                        size = "0 Bytes";
+                    }
+                    else
+                    {
+                        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+                        const lent = Math.floor(Math.log(fileContents[i + 2]) / Math.log(1024));
+                        size = parseFloat((fileContents[i + 2] / Math.pow(1024, lent)).toFixed(2)) + ' ' + sizes[lent];
+                    }
+
+                    output.push('<li class="tx"><img src="' + fileContents[0 + i]  + '" width="100px" height="100px"><b>' +
+                     escape(fileContents[i+ 1]) + '</b> - ' + size + '. &nbsp; &nbsp; ' + removeButton + '</li>');
+
+
+                }
+                $(this).children(".fileList").append(output.join(""));
+                    evt.target.value = null;
+
+             });
+
+        });
+
+        $(this).on("click", ".removeFile", function (e)
+        {
+            e.preventDefault();
+
+            var fileId = $(this).parent().children("a").data("fileid");
+
+            for (var i = 0; i < filesToUpload.length; ++i)
+            {
+                if (filesToUpload[i].id === fileId)
+                    filesToUpload.splice(i, 1);
+            }
+            
+
+            $(this).parent().remove();
+        });
+
+        this.clear = function ()
+        {
+            for (var i = 0; i < filesToUpload.length; i++) {
+                if (filesToUpload[i].id.indexOf(sectionIdentifier) >= 0)
+                    filesToUpload.splice(i, 1);
+            }
+
+            $(this).children(".fileList").empty();
+        };
+
+        return this;
+    };
+
+    (function () {
+        var filesToUpload = [];
+
+        var files1Uploader = $("#files1").fileUploader(filesToUpload, "files1");
+
+        $("#process").click(function (e)
+        {
+            e.preventDefault();
+
+            var formData = new FormData(document.getElementById("wrapped"));
+
+            for (var i = 0; i < filesToUpload.length; i++)
+            {
+
+                formData.append("files_" + i + "_datafile", filesToUpload[i].datafile);
+                formData.append("files_" + i + "_filename", filesToUpload[i].filename);
+
+            }
+
+            formData.append("files_len", filesToUpload.length.toString());
+            const uri = "{{ url_for("recibir_alta_piso") }}";
+
+
+
+            $.ajax({
+                url: uri,
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (resp)
+                {
+
+
+                    document.getElementById("wrapped").reset();
+
+                    let middlewizard = document.getElementById("middle-wizard");
+                    middlewizard.children[4].className = "submit step wizard-step";
+                    middlewizard.children[4].style.cssText = "display: none;";
+
+                    middlewizard.children[0].className = "step wizard-step current";
+                    middlewizard.children[0].style.cssText = "display: block;";
+
+                    let back = document.getElementsByName("backward");
+                    let frw = document.getElementsByName("forward");
+                    let pro = document.getElementsByName("process");
+
+                    back[0].disabled = true;
+                    pro[0].disabled = true;
+                    frw[0].disabled = false;
+
+                    showPosition();
+                    const out = '<h4 class=\'alert alert-success quitadotop\' id=\'success-alert\' style=\'display: block; opacity: 100;\'></h4>';
+                    $("#mostrar_resultado").append(out);
+
+                    let elemento = document.getElementById("success-alert");
+
+                    elemento.innerHTML += resp.data;
+
+
+                    setTimeout(function() {
+                        $("#success-alert").remove();
+                    }, 4000);
+
+                    files1Uploader.clear();
+                },
+                error: function (data) {
+                    alert("ERROR - " + data.responseText);
+                }
+            });
+        });
+
+
+
+
+    })()
+
+
+    </script>
+    <script src="{{ url_for("static", filename="js/common_scripts.min.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/functions.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/survey_func.js") }}"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script>
+
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        $(document).ready(function()
+        {
+
+            socket.on('r_obtenercalle', function(data)
+            {
+                console.log("recibido ");
+                document.getElementById("calle").value = data["calle"];
+                $("#calle").parent().addClass("fl-is-active fl-has-focus");
+                document.getElementById("numero").value = data["numero"];
+                $("#numero").parent().addClass("fl-is-active fl-has-focus");
+                document.getElementById("cp").value = data["cp"];
+                $("#cp").parent().addClass("fl-is-active fl-has-focus");
+                document.getElementById("localidad").value = data["localidad"];
+                $("#localidad").parent().addClass("fl-is-active fl-has-focus");
+
+            });
+
+
+
+
+        });
+
+        function obtenercalle()
+        {
+
+            if(navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(function(position)
+                {
+                    console.log("dentroasasd!");
+                    document.getElementById("latitude_gps").value =  position.coords.latitude.toString();
+                    document.getElementById("longitude_gps").value =  position.coords.longitude.toString() ;
+                    document.getElementById("precision").value = position.coords.accuracy.toString() + " metros";
+                    socket.emit("obtenercalle", position.coords.latitude, position.coords.longitude );
+
+                }, function(error)
+                {
+
+                    switch(error.code)
+                    {
+                        case error.PERMISSION_DENIED:
+                             document.getElementById("latitude_gps").innerHTML = "User denied the request for Geolocation.";
+                        break;
+                        case error.POSITION_UNAVAILABLE:
+                             document.getElementById("latitude_gps").innerHTML = "Location information is unavailable.";
+                        break;
+                        case error.TIMEOUT:
+                             document.getElementById("latitude_gps").innerHTML = "The request to get user location timed out.";
+                        break;
+                        default:
+                             document.getElementById("latitude_gps").innerHTML = "An unknown error occurred.";
+                        break;
+                    }
+
+                }, {maximumAge:10000, timeout:5000, enableHighAccuracy: true});
+
+            } else {
+                alert("Sorry, your browser does not support HTML5 geolocation.");
+            }
+        }
+
+
+    </script>
+
+{% endblock %}

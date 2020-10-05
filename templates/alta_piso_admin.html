@@ -1,0 +1,280 @@
+{% extends "base_menu_admin.html" %}
+
+{% block titulo %}AÑADIR VIVIENDA{% endblock %}
+
+{% block footer_alta_piso %}
+    <div class="col-xs-3 show_clicked_abajo text-center">
+         <a href="{{ url_for("alta_piso") }}">
+            <span class="glyphicon glyphicon-plus glyphicon_font_footer"></span>
+            <div class="pageTitleC ">AÑADIR</div>
+         </a>
+    </div>
+{% endblock %}
+
+
+{% block contenido_central %}
+    <div class="container_centering">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-5 col-lg-5">
+                    <div id="wizard_container">
+                            <form id="wrapped" method="POST" autocomplete="off" enctype="multipart/form-data" >
+
+                                <div id="mostrar_resultado"></div>
+	                            <div id="middle-wizard">
+
+                                    <div class="step wizard-step current" style="display: block;" data-role="page" id="pageone">
+                                        <div data-role="main" class="ui-content">
+                                            <h3 class="main_question">
+                                                <strong class="">1 de 5</strong>
+                                                <p class="titulo">TIPO DE VIVIENDA</p>
+                                            </h3>
+                                            <div class="review_block">
+                                              <ul>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+
+                                                        {% if tipocasa == "piso" %}
+                                                            <input type="radio" id="piso" name="tipocasa" class="required valid" checked value="piso" onchange="cambiotipocasa(this);">
+                                                        {% else %}
+                                                            <input type="radio" id="piso" name="tipocasa" class="required" value="piso" onchange="cambiotipocasa(this);">
+                                                        {% endif %}
+
+                                                        <label class="radio" for="piso"></label>
+                                                        <label for="piso" class="wrapper">Piso</label>
+                                                        <span for="piso" class="error" style="display: none;" id="errorfase1">Requerido</span>
+
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+                                                        {% if tipocasa == "chalet" %}
+                                                            <input type="radio" id="chalet" name="tipocasa" class="required valid" checked value="chalet" onchange="cambiotipocasa(this);">
+                                                        {% else %}
+                                                            <input type="radio" id="chalet" name="tipocasa" class="required" value="chalet" onchange="cambiotipocasa(this);">
+                                                        {% endif %}
+                                                        <label class="radio" for="chalet"></label>
+                                                        <label for="chalet" class="wrapper">Chalet</label>
+                                                    </div>
+                                                </li>
+                                                  <li>
+                                                      <div class="checkbox_radio_container">
+                                                          {% if tipocasa == "casarural" %}
+                                                              <input type="radio" id="casarural" name="tipocasa" class="required valid" checked value="casarural" onchange="cambiotipocasa(this);">
+                                                          {% else %}
+                                                              <input type="radio" id="casarural" name="tipocasa" class="required" value="casarural" onchange="cambiotipocasa(this);">
+                                                          {% endif %}
+                                                        <label class="radio" for="casarural"></label>
+                                                        <label for="casarural" class="wrapper">Casa Rural</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+                                                        {% if tipocasa == "oficina" %}
+                                                            <input type="radio" id="oficina" name="tipocasa" class="required valid" checked value="oficina" onchange="cambiotipocasa(this);">
+                                                        {% else %}
+                                                            <input type="radio" id="oficina" name="tipocasa" class="required" value="oficina" onchange="cambiotipocasa(this);">
+                                                        {% endif %}
+                                                        <label class="radio" for="oficina"></label>
+                                                        <label for="oficina" class="wrapper">Oficina</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+	                                    </div>
+
+                                        </div>
+	                                </div>
+
+                                     <div class="step wizard-step" style="display: none;">
+                                         <h3 class="main_question">
+                                            <strong class="">2 de 5</strong>
+                                            <p class="titulo">LOCALIZACION VIVIENDA</p>
+                                        </h3>
+                                        <div class="form-group">
+	                                        <label for="calle">Calle</label>
+                                            <input type="text" name="calle" id="calle" value="{{ calle }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <button type="button" name="obtener_calle" value="1" onclick="obtenercalle()">OBTENER POSICION</button>
+                                            <span for="calle" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="numero">Numero</label>
+                                            <input type="text" name="numero" id="numero" value="{{ numero }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="numero" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="cp">Codigo Postal</label>
+                                            <input type="text" name="cp" id="cp" value="{{ cp }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="cp" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="localidad">Localidad</label>
+                                            <input type="text" name="localidad" id="localidad" value="{{ localidad }}" class="form-control required" onchange="cambioinputs(this);">
+                                             <span for="localidad" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                    </div>
+
+                                    <div class="step wizard-step" style="display: none;">
+                                        <h3 class="main_question">
+                                            <strong class="">3 de 5</strong>
+                                            <p class="titulo">DATOS DUEÑO</p>
+                                        </h3>
+                                        <div class="form-group">
+	                                        <label for="dueno">Dueño</label>
+                                            <input type="text" name="dueno" id="dueno" value="{{ dueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="dueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="wasap">Whatsapp</label>
+                                            <input type="text" name="wasap" id="wasap" value="{{ wasap }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="wasap" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="telefonodueno">Telefono</label>
+                                            <input type="text" name="telefonodueno" id="telefonodueno" value="{{ telefonodueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="telefonodueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+
+                                        <div class="form-group">
+	                                        <label for="calledueno">Calle</label>
+                                            <input type="text" name="calledueno" id="calledueno" value="{{ calledueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="calledueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="numerodueno">Numero</label>
+                                            <input type="text" name="numerodueno" id="numerodueno" value="{{ numerodueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="numerodueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                    </div>
+
+                                    <div class="step wizard-step" style="display: none;">
+
+                                        <h3 class="main_question">
+                                            <strong class="">4 de 5</strong>
+                                            <p class="titulo">DATOS VIVIENDA</p>
+                                        </h3>
+
+                                        <div class="review_block">
+	                                        <ul>
+	                                            <li>
+	                                                <div class="checkbox_radio_container">
+                                                    {% if tiponegocio_alquiler %}
+                                                            <input type="checkbox" id="alquiler" name="tiponegocio_alquiler" class="valid" checked value="alquiler">
+                                                    {% endif %}
+                                                        <input type="checkbox" id="alquiler" name="tiponegocio_alquiler" class="" value="alquiler">
+	                                                    <label class="checkbox" for="alquiler"></label>
+	                                                    <label for="alquiler" class="wrapper">Alquiler</label>
+                                                        <span for="alquiler" class="error" style="display: none;">Requerido. Elige uno.</span>
+	                                                </div>
+	                                            </li>
+	                                            <li>
+	                                                <div class="checkbox_radio_container">
+                                                    {% if tiponegocio_venta %}
+                                                            <input type="checkbox" id="venta" name="tiponegocio_venta" class=" valid" checked value="venta" >
+                                                    {% endif %}
+                                                        <input type="checkbox" id="venta" name="tiponegocio_venta" class="" value="venta" >
+	                                                    <label class="checkbox" for="venta"></label>
+	                                                    <label for="venta" class="wrapper">Venta</label>
+                                                        <span for="venta" class="error" style="display: none;">Requerido</span>
+	                                                </div>
+	                                            </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="form-group">
+	                                        <label for="precioalquiler">Precio Alquiler</label>
+                                            <input type="number" name="precioalquiler" id="precioalquiler" value="{{ precioalquiler }}" class="form-control" onchange="cambioinputs(this);">
+                                            <span for="precioalquiler" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="precioventa">Precio Venta</label>
+                                            <input type="number" name="precioventa" id="precioventa" value="{{ precioventa }}" class="form-control" onchange="cambioinputs(this);">
+                                            <span for="precioventa" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="totalmetros">Total Metros</label>
+                                            <input type="number" name="totalmetros" id="totalmetros" value="{{ totalmetros }}" class="form-control required" onchange="cambioinputs(this);">
+                                             <span for="totalmetros" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="habitaciones">Habitaciones</label>
+                                            <input type="number" name="habitaciones" id="habitaciones" value="{{ habitaciones }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="habitaciones" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="banos">Baños</label>
+                                            <input type="number" name="banos" id="banos" value="{{ banos }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="banos" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+
+                                    </div>
+
+                                     <div class="step wizard-step" style="display: none;">
+                                        <h3 class="main_question">
+                                            <strong class="">5 de 5</strong>
+                                            <p class="titulo">FOTOS VIVIENDA</p>
+                                        </h3>
+                                        <div class="form-group">
+                                                <div class="row files" id="files1">
+                                                    <label>Fotos casa:</label>
+                                                    <span class="btn btn-default btn-file">Seleccionar
+                                                        <input type="file" name="files1" accept="image/*" multiple>
+                                                    </span>
+                                                    <br><br><br>
+                                                    <ul class="fileList">
+                                                    </ul>
+                                                </div>
+                                        </div>
+	                                </div>
+
+
+	                            </div>
+                                <div id="bottom-wizard">
+	                                <button type="button" name="backward" id="backward" class="backward">Anterior</button>
+	                                <button type="button" name="forward" id="forward" class="forward">Siguiente</button>
+	                                <button type="button"  name="process" id="process" class="submit">Enviar</button>
+	                            </div>
+                                <br><br>
+                                {% if latitude_gps %}
+                                <input type="text" id="latitude_gps" name="latitude_gps" value="{{ latitude_gps }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="latitude_gps" name="latitude_gps" value="" class="form-control">
+                                {% endif %}
+
+                                {% if longitude_gps %}
+                                <input type="text" id="longitude_gps" name="longitude_gps" value="{{ longitude_gps }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="longitude_gps" name="longitude_gps" value="" class="form-control">
+                                {% endif %}
+
+                                {% if precision %}
+                                <input type="text" id="precision" name="precision" value="{{ precision }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="precision" name="precision" value="" class="form-control">
+                                {% endif %}
+ <input type="hidden" name="nombre" value="{{ session["nombre"] }}">
+	                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+    <script src="{{ url_for("static", filename="js/control_form.js") }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script src="{{ url_for("static", filename="js/websockets.js") }}"></script>
+
+{% endblock %}

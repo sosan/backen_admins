@@ -1,0 +1,53 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+{% endblock %}
+
+
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for("static", filename="css/reset.css") }}">
+{{ super() }}
+
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/main.css") }}">
+    <link rel="icon" href="{{ url_for("static", filename="images/favicon.ico") }}">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
+
+
+
+    <link href="{{ url_for("static", filename="css/style.css") }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""></script>
+
+    <script src="{{ url_for("static", filename="js/float-labels.js") }}"></script>
+
+{% endblock %}
+
+{% block body_attribs %}
+class="bgImage mask blurMask"
+{% endblock %}
+
+
+{% block content %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

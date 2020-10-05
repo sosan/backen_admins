@@ -1,0 +1,128 @@
+{% extends "menu_administradores_template.html" %}
+{% block content %}
+    {{ super() }}
+{% endblock %}
+{##}
+{#{% if isactive_editar_comerciales %}#}
+{#    class="is-active"#}
+{#{% endif %}#}
+
+{% block main %}
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="{{ url_for("menu_dashboard")  }}">Home</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Listado Comerciales</a></li>
+          </ul>
+    </nav>
+
+    {% if datos_comerciales %}
+        <div class="table-container">
+
+        {% if mensajeerror %}
+            <div id="mostrar_resultado">{{ mensajeerror }}<br><br></div>
+        {% else %}
+            <div id="mostrar_resultado"><br><br></div>
+        {% endif %}
+
+            <form action="{{ url_for("opciones_modificar_comerciales") }}" method="post">
+				<table class="table is-fullwidth">
+					<thead>
+						<tr>
+                            <th></th>
+							<th>Nombre</th>
+							<th>Apellidos</th>
+							<th>Telefono</th>
+							<th></th>
+                            <th></th>
+						</tr>
+					</thead>
+					<tbody>
+                        {% for i in range(0, datos_comerciales|length) %}
+                            {% if datos_comerciales[i][8] == 1 %}
+							<tr>
+								<td class="is-image-cell">
+                                    <input type="hidden" value="{{ datos_comerciales[i][0] }}" name="id">
+									<div class="image">
+										<img src="https://avatars.dicebear.com/api/initials/AG.svg" class="is-rounded" style="width: 32px">
+									</div>
+								</td>
+								<td>{{ datos_comerciales[i][1] }}</td>
+								<td>{{ datos_comerciales[i][5] }}</td>
+								<td>{{ datos_comerciales[i][7] }}</td>
+                                <td>
+                                    <button type="submit" class="button modal-button" name="borrar" value="{{ datos_comerciales[i][0] }}">Borrar</button>
+                                    <button type="button" class="button modal-button" data-target="#vermodal_{{ datos_comerciales[i][0] }}" aria-haspopup="true">Modificar</button>
+                                </td>
+                            <td>
+                                <form action="{{ url_for("opciones_modificar_comerciales") }}" method="post">
+                                <div class="modal " id="vermodal_{{ datos_comerciales[i][0] }}">
+                                  <div class="modal-background"></div>
+                                  <div class="modal-card">
+                                    <header class="modal-card-head">
+                                      <p class="modal-card-title">Modificar comercial</p>
+                                      <button class="delete" aria-label="close" type="button"></button>
+                                    </header>
+                                    <section class="modal-card-body">
+                                        <ul>
+                                            <li>
+                                                <input type="hidden" value="{{ datos_comerciales[i][0] }}" name="id">
+                                                <label for="">Nombre</label>
+                                                <input type="text" name="nombre" value="{{ datos_comerciales[i][1] }}">
+                                            </li>
+                                            <li>
+                                                <label for="">Apellidos</label>
+                                                <input type="text" name="apellidos" value="{{ datos_comerciales[i][2] }}">
+                                            </li>
+                                            <li>
+                                                <label for="">telefono</label>
+                                                <input type="text" name="telefono" value="{{ datos_comerciales[i][7] }}">
+                                            </li>
+                                        </ul>
+                                    </section>
+                                    <footer class="modal-card-foot">
+                                      <button class="button is-success" type="submit" name="modificar" value="{{ datos_comerciales[i][0] }}">Modifcar</button>
+                                      <button class="button close" aria-label="close" type="button">Cancelar</button>
+                                    </footer>
+                                  </div>
+                                </div>
+                                </form>
+                            </td>
+							</tr>
+                        {% endif %}
+                    {% endfor %}
+					</tbody>
+				</table>
+            </form>
+        </div>
+
+    {% endif %}
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    document.querySelectorAll('.modal-button').forEach(function(el)
+    {
+        el.addEventListener('click', function()
+        {
+            var target = document.querySelector(el.getAttribute('data-target'));
+
+            target.classList.add('is-active');
+
+            target.querySelector('.close').addEventListener('click',   function()
+            {
+                target.classList.remove('is-active');
+            });
+
+            target.querySelector('.delete').addEventListener('click',   function()
+            {
+                target.classList.remove('is-active');
+            });
+
+        });
+});
+
+    </script>
+{% endblock %}

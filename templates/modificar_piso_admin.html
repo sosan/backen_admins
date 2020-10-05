@@ -1,0 +1,299 @@
+{% extends "base_menu_admin.html" %}
+
+{% block titulo %}MODIFICAR VIVIENDA{% endblock %}
+{% block footer_medidas %}
+        <div class=" col-xs-3 show_clicked_abajo text-center">
+            <a href="{{ url_for("menu_dashboard_comerciales") }}">
+            <span class="glyphicon glyphicon-tag glyphicon_font_footer"></span>
+            <div class="pageTitleC">LISTADO</div>
+                </a>
+        </div>
+{% endblock %}
+
+{% block contenido_central %}
+    <div class="container_centering">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-5 col-lg-5">
+                    <div id="wizard_container">
+                            <form id="wrapped" method="POST" autocomplete="off" enctype="multipart/form-data" >
+
+                                <div id="mostrar_resultado"></div>
+	                            <div id="middle-wizard">
+
+                                    <div class="step wizard-step current" style="display: block;" data-role="page" id="pageone">
+                                        <div data-role="main" class="ui-content">
+                                            <h3 class="main_question">
+                                                <strong class="">1 de 5</strong>
+                                                <p class="titulo">TIPO DE VIVIENDA</p>
+                                            </h3>
+                                            <div class="review_block">
+                                              <ul>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+
+                                                        {% if datos_vivienda.tipocasa == "piso" %}
+                                                            <input type="radio" id="piso" name="tipocasa" class="required valid" checked value="piso" onchange="cambiotipocasa(this);">
+                                                        {% else %}
+                                                            <input type="radio" id="piso" name="tipocasa" class="required" value="piso" onchange="cambiotipocasa(this);">
+                                                        {% endif %}
+
+                                                        <label class="radio" for="piso"></label>
+                                                        <label for="piso" class="wrapper">Piso</label>
+                                                        <span for="piso" class="error" style="display: none;" id="errorfase1">Requerido</span>
+
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+                                                        {% if datos_vivienda.tipocasa == "chalet" %}
+                                                            <input type="radio" id="chalet" name="tipocasa" class="required valid" checked value="chalet" onchange="cambiotipocasa(this);">
+                                                        {% else %}
+                                                            <input type="radio" id="chalet" name="tipocasa" class="required" value="chalet" onchange="cambiotipocasa(this);">
+                                                        {% endif %}
+                                                        <label class="radio" for="chalet"></label>
+                                                        <label for="chalet" class="wrapper">Chalet</label>
+                                                    </div>
+                                                </li>
+                                                  <li>
+                                                      <div class="checkbox_radio_container">
+                                                          {% if datos_vivienda.tipocasa == "casarural" %}
+                                                              <input type="radio" id="casarural" name="tipocasa" class="required valid" checked value="casarural" onchange="cambiotipocasa(this);">
+                                                          {% else %}
+                                                              <input type="radio" id="casarural" name="tipocasa" class="required" value="casarural" onchange="cambiotipocasa(this);">
+                                                          {% endif %}
+                                                        <label class="radio" for="casarural"></label>
+                                                        <label for="casarural" class="wrapper">Casa Rural</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="checkbox_radio_container">
+                                                        {% if datos_vivienda.tipocasa == "oficina" %}
+                                                            <input type="radio" id="oficina" name="tipocasa" class="required valid" checked value="oficina" onchange="cambiotipocasa(this);">
+                                                        {% else %}
+                                                            <input type="radio" id="oficina" name="tipocasa" class="required" value="oficina" onchange="cambiotipocasa(this);">
+                                                        {% endif %}
+                                                        <label class="radio" for="oficina"></label>
+                                                        <label for="oficina" class="wrapper">Oficina</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+	                                    </div>
+
+                                        </div>
+	                                </div>
+
+                                     <div class="step wizard-step" style="display: none;">
+                                         <h3 class="main_question">
+                                            <strong class="">2 de 5</strong>
+                                            <p class="titulo">LOCALIZACION VIVIENDA</p>
+                                        </h3>
+                                        <div class="form-group">
+	                                        <label for="calle">Calle</label>
+                                            <input type="text" name="calle" id="calle" value="{{ datos_vivienda.calle }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <button type="button" name="obtener_calle" value="1" onclick="obtenercalle()">OBTENER POSICION</button>
+                                            <span for="calle" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="numero">Numero</label>
+                                            <input type="text" name="numero" id="numero" value="{{ datos_vivienda.numero }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="numero" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="cp">Codigo Postal</label>
+                                            <input type="text" name="cp" id="cp" value="{{ datos_vivienda.cp }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="cp" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="localidad">Localidad</label>
+                                            <input type="text" name="localidad" id="localidad" value="{{ datos_vivienda.localidad }}" class="form-control required" onchange="cambioinputs(this);">
+                                             <span for="localidad" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                    </div>
+
+                                    <div class="step wizard-step" style="display: none;">
+                                        <h3 class="main_question">
+                                            <strong class="">3 de 5</strong>
+                                            <p class="titulo">DATOS DUEÑO</p>
+                                        </h3>
+                                        <div class="form-group">
+	                                        <label for="dueno">Dueño</label>
+                                            <input type="text" name="dueno" id="dueno" value="{{ datos_vivienda.dueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="dueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="wasap">Whatsapp</label>
+                                            <input type="text" name="wasap" id="wasap" value="{{ datos_vivienda.wasap }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="wasap" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="telefonodueno">Telefono</label>
+                                            <input type="text" name="telefonodueno" id="telefonodueno" value="{{ datos_vivienda.telefonodueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="telefonodueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+
+                                        <div class="form-group">
+	                                        <label for="calledueno">Calle</label>
+                                            <input type="text" name="calledueno" id="calledueno" value="{{ datos_vivienda.calledueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="calledueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="numerodueno">Numero</label>
+                                            <input type="text" name="numerodueno" id="numerodueno" value="{{ datos_vivienda.numerodueno }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="numerodueno" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                    </div>
+
+                                    <div class="step wizard-step" style="display: none;">
+
+                                        <h3 class="main_question">
+                                            <strong class="">4 de 5</strong>
+                                            <p class="titulo">DATOS VIVIENDA</p>
+                                        </h3>
+
+                                        <div class="review_block">
+	                                        <ul>
+	                                            <li>
+	                                                <div class="checkbox_radio_container">
+                                                    {% if datos_vivienda.tiponegocio_alquiler %}
+                                                            <input type="checkbox" id="alquiler" name="tiponegocio_alquiler" class="valid" checked value="alquiler">
+                                                    {% endif %}
+                                                        <input type="checkbox" id="alquiler" name="tiponegocio_alquiler" class="" value="alquiler">
+	                                                    <label class="checkbox" for="alquiler"></label>
+	                                                    <label for="alquiler" class="wrapper">Alquiler</label>
+                                                        <span for="alquiler" class="error" style="display: none;">Requerido. Elige uno.</span>
+	                                                </div>
+	                                            </li>
+	                                            <li>
+	                                                <div class="checkbox_radio_container">
+                                                    {% if datos_vivienda.tiponegocio_venta %}
+                                                            <input type="checkbox" id="venta" name="tiponegocio_venta" class=" valid" checked value="venta" >
+                                                    {% endif %}
+                                                        <input type="checkbox" id="venta" name="tiponegocio_venta" class="" value="venta" >
+	                                                    <label class="checkbox" for="venta"></label>
+	                                                    <label for="venta" class="wrapper">Venta</label>
+                                                        <span for="venta" class="error" style="display: none;">Requerido</span>
+	                                                </div>
+	                                            </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="form-group">
+	                                        <label for="precioalquiler">Precio Alquiler</label>
+                                            <input type="number" name="precioalquiler" id="precioalquiler" value="{{ datos_vivienda.precioalquiler }}" class="form-control" onchange="cambioinputs(this);">
+                                            <span for="precioalquiler" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                        <div class="form-group">
+	                                        <label for="precioventa">Precio Venta</label>
+                                            <input type="number" name="precioventa" id="precioventa" value="{{ datos_vivienda.precioventa }}" class="form-control" onchange="cambioinputs(this);">
+                                            <span for="precioventa" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+                                         <div class="form-group">
+	                                        <label for="totalmetros">Total Metros</label>
+                                            <input type="number" name="totalmetros" id="totalmetros" value="{{ datos_vivienda.totalmetros }}" class="form-control required" onchange="cambioinputs(this);">
+                                             <span for="totalmetros" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="habitaciones">Habitaciones</label>
+                                            <input type="number" name="habitaciones" id="habitaciones" value="{{ datos_vivienda.habitaciones }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="habitaciones" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+                                        <div class="form-group">
+	                                        <label for="banos">Baños</label>
+                                            <input type="number" name="banos" id="banos" value="{{ datos_vivienda.banos }}" class="form-control required" onchange="cambioinputs(this);">
+                                            <span for="banos" class="error" style="display: none;">Requerido</span>
+	                                    </div>
+
+
+                                    </div>
+
+                                     <div class="step wizard-step" style="display: none;">
+                                        <h3 class="main_question">
+                                            <strong class="">5 de 5</strong>
+                                            <p class="titulo">FOTOS VIVIENDA</p>
+                                        </h3>
+                                        <div class="form-group">
+                                                <div class="row files" id="files1">
+                                                    <label>Fotos casa:</label>
+                                                    <span class="btn btn-default btn-file">Seleccionar
+                                                        <input type="file" name="files1" accept="image/*" multiple>
+                                                    </span>
+                                                    <br><br><br>
+                                                    <ul class="fileList">
+                                                        {% for o in range(0, datos_vivienda["nombrefile"]|length) %}
+                                                            <li class="tx">
+                                                                {% set uri = url_for("static", filename="images/archivos_subidos/{0}".format(datos_vivienda["nombrefile"][o]["nombrefile"])) %}
+                                                                <img src="{{ uri }}" width="100" height="100">
+                                                                <b>{{ datos_vivienda["nombrefile"][o]["nombrefile_fromform"] }}</b>
+                                                                - {{ datos_vivienda["nombrefile"][o]["tamano"] }} &nbsp;&nbsp;
+                                                                <button type="button" id="removeImageModificado" class="removeFile btn btn-danger" data-fileid="{{ datos_vivienda["nombrefile"][o]["nombrefile"] }}"> Quitar </button>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                        </div>
+	                                </div>
+
+
+	                            </div>
+                                <div id="bottom-wizard">
+	                                <button type="button" name="backward" id="backward" class="backward">Anterior</button>
+	                                <button type="button" name="forward" id="forward" class="forward">Siguiente</button>
+	                                <button type="button"  name="process" id="process_modificado" class="submit">Enviar</button>
+	                            </div>
+                                <br><br>
+                                {% if datos_vivienda.latitude_gps %}
+                                <input type="text" id="latitude_gps" name="latitude_gps" value="{{ datos_vivienda.latitude_gps }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="latitude_gps" name="latitude_gps" value="" class="form-control">
+                                {% endif %}
+
+                                {% if datos_vivienda.longitude_gps %}
+                                <input type="text" id="longitude_gps" name="longitude_gps" value="{{ datos_vivienda.longitude_gps }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="longitude_gps" name="longitude_gps" value="" class="form-control">
+                                {% endif %}
+
+                                {% if datos_vivienda.precision %}
+                                <input type="text" id="precision" name="precision" value="{{ datos_vivienda.precision }}" class="form-control">
+                                {% else %}
+                                    <input type="text" id="precision" name="precision" value="" class="form-control">
+                                {% endif %}
+
+                            <input type="hidden" name="usuario_que_modifica" value="{{ session["nombre"] }}">
+                            <input type="hidden" name="iditem" value="{{ datos_vivienda.iditem }}">
+                            <input type="hidden" name="longitud_file_ya_existe" value="{{ datos_vivienda["nombrefile"]|length }}">
+                             {% for o in range(0, datos_vivienda["nombrefile"]|length) %}
+                                <input type="hidden" name="file_ya_existe_{{ o }}_nombrefile" value="{{ datos_vivienda["nombrefile"][o]["nombrefile"] }}">
+                                <input type="hidden" name="file_ya_existe_{{ o }}_nombrefile_fromform" value="{{ datos_vivienda["nombrefile"][o]["nombrefile_fromform"] }}">
+                                <input type="hidden" name="file_ya_existe_{{ o }}_tamano" value="{{ datos_vivienda["nombrefile"][o]["tamano"] }}">
+                            {% endfor %}
+	                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+    <script src="{{ url_for("static", filename="js/control_form.js") }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script src="{{ url_for("static", filename="js/websockets.js") }}"></script>
+
+
+
+
+{% endblock %}

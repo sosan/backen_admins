@@ -1,0 +1,194 @@
+{% extends "base_menu_admin.html" %}
+
+{% block titulo %}LISTADO VIVIENDAS{% endblock %}
+
+{% block menu_medicion  %}
+    <ul class="nav nav-tabs tabs_fixed ul_fixed">
+    <li role="presentation" class="active" id="sin_medicion" onclick="cambiar_pest(this);"><a href="#" >SIN MEDICION</a></li>
+    <li role="presentation" class="" id="con_medicion" onclick="cambiar_pest(this);"><a href="#" >CON MEDICION</a></li>
+    </ul>
+{% endblock %}
+
+{% block contenido_central %}
+ {% if datos %}
+     {% for i in range(0, totalelementos) %}
+         <form action="{{ url_for("ver_piso_para_modificar") }}" method="post">
+
+
+{#     {% for elemento in datos %}#}
+         <div class="aditem">
+             <div class="aditem-header">
+             <!-- quine lo ha introducido -->
+             <input type="hidden" name="iditem" value="{{ datos[i].iditem }}">
+                <div class="x3">{{ datos[i].localidad }} - {{ datos[i].nombre }}</div>
+                <div class="x6" >
+                    {% if datos[i].fechadelta >= fechaahora  %}
+                    <span class="entradanueva_label">NUEVA ENTRADA</span>
+                    {% else %}
+                        <span class="fecha_label">{{ datos[i].fecha.strftime("%d-%m-%Y") }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="aditem-detail-image-container">
+                <div class="aditem-detail">
+
+                    <!-- modal ?? -->
+                    <a href="" class="aditem-detail-title ">
+                        <span class="glyphicon glyphicon-map-marker"></span>
+                        {{ datos[i].calle }}<br>
+{#                        Numero: {{ datos[i].numero }}#}
+                    </a>
+                    <div class=" list-location-link tx">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        {{datos[i].dueno}} / {{ datos[i].duenotelefono }}
+
+                    </div>
+                    <div class="tx">
+                        Totalmetros: {{ datos[i].totalmetros }}<br>
+                        Habitaciones: {{ datos[i].habitaciones }}<br>
+                        Baños: {{ datos[i].numerobanos }}
+                    </div>
+                    <br>
+
+                    <div class="x12">
+                        <div class="adlist-tagsbox-inlineblockline">
+                            <div class="vefbox">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mostrarimagenes{{ i }}">
+                                     {% if datos[i].fotos %}
+                                        {{ datos[i].fotos| length }} FOTOS
+                                    {% else %}
+                                    0 FOTOS
+                                    {% endif %}
+                                </button>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="x11">
+                        <div class="adlist-tagsbox-inlineblockline">
+                            <div class="aditem-price">{{ datos[i].precio }}<sup>€</sup></div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="aditem-image">
+
+                    <img src="https://via.placeholder.com/100.png/09f/fff" class="ef">
+                    <br>
+            </div>
+            </div>
+
+
+            <div class="aditem-footer">
+                <div class="aditem-buttons">
+                    <div>
+                        <!-- modal -->
+                        <a href="#" class="def-btn">
+                        <i class=" icon icon-white-envelope"></i>
+                        <span class="byEmail">MENSAJE DUEÑO</span>
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="" class="simple-button"><i class="icon icon-share"></i> <span>MEDIR<span></span></span></a>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="simple-button"><i class="icon icon-complaint"></i><span>MODIFICAR</span></button>
+{#                        <a href="{{ url_for("ver_piso_para_modificar") }}" class="simple-button"><i class="icon icon-complaint"></i><span>MODIFICAR</span></a>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <br>
+ <div class="modal fade " id="mostrarimagenes{{ i }}" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mostrarimagenes{{ i }}" aria-hidden="true">
+  <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">FOTOS</h4>
+          </div>
+
+          <div class="modal-body">
+
+			<div id="carousel-id{{ i }}" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+                {% if datos[i].fotos %}
+                    {% for i in range(0, datos[i].fotos| length) %}
+                    {% endfor %}
+                {% else %}
+
+                {% endif %}
+			<li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel-example-1z" data-slide-to="1"></li>
+			<li data-target="#carousel-example-1z" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner">
+                 {% if datos[i].fotos %}
+                    {% for o in range(0, datos[i].fotos| length) %}
+                        <div class="item">
+
+                            <img data-src="" src="datos[i].fotos[o]">
+{#                            <img data-src="" src="https://via.placeholder.com/800.png/09f/fff">#}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                     <h3>- Sin fotos - </h3>
+                {% endif %}
+
+			</div>
+            {% if datos[i].fotos %}
+                <a class="left carousel-control" href="#carousel-id{{ i }}" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a class="right carousel-control" href="#carousel-id{{ i }}" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+            {% else %}
+            {% endif %}
+			</div>
+
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</form>
+    {% endfor %}
+
+    {% endif %}
+{% endblock %}
+
+{% block footer_medidas %}
+        <div class=" col-xs-3 show_clicked_abajo text-center">
+            <a href="{{ url_for("menu_dashboard_comerciales") }}">
+            <span class="glyphicon glyphicon-tag glyphicon_font_footer"></span>
+            <div class="pageTitleC">LISTADO</div>
+                </a>
+        </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{#    <script>#}
+{#    $(".carousel").carousel();#}
+{##}
+{#    </script>#}
+
+{#    {% for i in range(0, totalelementos) %}#}
+{#            {% set id="exampleModal{0}".format(i) %}#}
+{#            <script>#}
+{#
+{#                $(document).ready(function()#}
+{#                {#}
+{#                    $("#{{ id }}").modal("toggle");#}
+{##}
+{##}
+{##}
+{#                });#}
+{#            </script>#}
+{#    {% endfor %}#}
+{% endblock %}

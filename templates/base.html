@@ -1,0 +1,18 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+{#<meta HTTP-EQUIV="Pragma" content="no-cache">#}
+{#<meta HTTP-EQUIV="Expires" content="-1">#}
+{% endblock %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/reset.css") }}">
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/main.css") }}">
+    <link rel="icon" href="{{ url_for("static", filename="images/favicon.ico") }}">
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}

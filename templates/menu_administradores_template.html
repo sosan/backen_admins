@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="es" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/bulma.css") }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+{% block content %}
+    <header class="hero">
+    <div class="hero-head">
+      <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+
+          <a class="navbar-item is--brand">
+            <img class="navbar-brand-logo" src="{{ url_for("static", filename="images/blankOscuro.png") }}" alt="logo" width="100px" height="50px">
+          </a>
+          <a class="navbar-item is-tab is-hidden-mobile is-active"><span class="icon is-medium"><i class="fa fa-home"></i></span>Lorem</a>
+          <a class="navbar-item is-tab is-hidden-mobile" href="#">Lorem</a>
+          <a class="navbar-item is-tab is-hidden-mobile" href="#">Lorem</a>
+          <a class="navbar-item is-tab is-hidden-mobile" href="#">Lorem</a>
+
+          <button class="button navbar-burger" data-target="navMenu">
+            <span>Lorem</span>
+            <span>Lorem</span>
+            <span>Lorem</span>
+          </button>
+
+        </div>
+
+
+        <div class="navbar-menu navbar-end" id="navMenu">
+          <a class="navbar-item is-tab is-hidden-tablet is-active">Lorem</a>
+          <a class="navbar-item is-tab is-hidden-tablet" href="#">Lorem</a>
+          <a class="navbar-item is-tab is-hidden-tablet" href="#">Lorem</a>
+          <a class="navbar-item is-tab is-hidden-tablet" href="#">Lorem</a>
+          <a class="navbar-item nav-tag">
+            <span class="icon is-small">
+              <i class="fa fa-envelope-o"></i>
+            </span>
+            <span class="tag is-primary tag-notif">6</span>
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" href="#">
+              <figure class="image is-32x32" style="margin-right:.5em;">
+                  <img src="{{ imagen_perfil }}">
+              </figure>
+              {{ nombre }}
+            </a>
+
+            <div class="navbar-dropdown is-right">
+                <a class="navbar-item" href="{{ url_for("ver_perfil_admin") }}">
+                  <span class="icon is-small">
+                    <i class="fa fa-user-o"></i>
+                  </span>
+                  &nbsp; Ver Perfil
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="{{ url_for("logout_admin") }}">
+                  <span class="icon is-small">
+                    <i class="fa fa-power-off"></i>
+                  </span>
+                  &nbsp; Logout
+                </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+    </header>
+
+    <div class="wrapper">
+    <div class="columns">
+      <aside class="column is-2 aside">
+        <nav class="menu">
+          <p class="menu-label">
+            General
+          </p>
+          <ul class="menu-list">
+            <li><a {% if isactive_dashboard %}class="is-active"{% else %}{% endif %}  href="{{ url_for("menu_dashboard") }}"><span class="icon is-small"><i class="fa fa-tachometer"></i></span> Dashboard</a></li>
+          </ul>
+          <p class="menu-label">
+            Administracion
+          </p>
+          <ul class="menu-list">
+            <li>
+              <a ><span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span> Comerciales</a>
+              <ul>
+                <li><a {% if isactive_editar_comerciales %}class="is-active"{% else %}{% endif %}  href="{{ url_for("listar_comerciales") }}">Editar Comercial</a></li>
+                <li><a {% if isactive_nuevo_comercial %}class="is-active"{% else %}{% endif %} href="{{ url_for("nuevo_comercial") }}">Nuevo Comercial</a></li>
+              </ul>
+            </li>
+
+
+
+            <li><a {% if isactive_opcion_2 %}class="is-active"{% else %}{% endif %} href="{{ url_for("opcion2")  }}"><span class="icon is-small"><i class="fa fa-desktop"></i></span> Opcion 2</a></li>
+            <li><a {% if isactive_opcion_3 %}class="is-active"{% else %}{% endif %} href="{{ url_for("opcion3")  }}"><span class="icon is-small"><i class="fa fa-table"></i></span> Opcion 3</a></li>
+            <li><a {% if isactive_estadistica %}class="is-active"{% else %}{% endif %} href="{{ url_for("menu_estadisticas")  }}"><span class="icon is-small"><i class="fa fa-bar-chart"></i></span> Estadisticas</a></li>
+
+            <li>
+              <a class=""><i class="fa fa-cog"></i> Administradores</a>
+              <ul>
+
+                <li><a {% if isactive_editar_administrador %}class="is-active"{% else %}{% endif %}  href="{{ url_for("listar_todos_administradores") }}">Editar Admin</a></li>
+                <li><a {% if isactive_nuevo_administrador %}class="is-active"{% else %}{% endif %} href="{{ url_for("nuevo_administrador") }}">Nuevo Admin</a></li>
+              </ul>
+            </li>
+          </ul>
+          <p class="menu-label">
+            Live On
+          </p>
+          <ul class="menu-list">
+            <li><a {% if isactive_opcion_4 %}class="is-active"{% else %}{% endif %} href="{{ url_for("opcion4")  }}"><span class="icon is-small"><i class="fa fa-bug"></i></span> Opcion 4</a></li>
+            <li><a {% if isactive_opcion_5 %}class="is-active"{% else %}{% endif %} href="{{ url_for("opcion5")  }}"><span class="icon is-small"><i class="fa fa-windows"></i></span> Opcion 5</a></li>
+            <li><a {% if isactive_opcion_6 %}class="is-active"{% else %}{% endif %} href="{{ url_for("opcion6")  }}"><span class="icon is-small"><i class="fa fa-laptop"></i></span> Iniciar DB</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="column main">
+          {% block main %}
+          {% endblock %}
+      </main>
+    </div>
+    </div>
+{% block scripts %}
+{% endblock %}
+</body>
+{% endblock %}
+</html>

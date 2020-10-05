@@ -1,0 +1,41 @@
+{% extends "menu_administradores_template.html" %}
+{% block content %}
+    {{ super() }}
+{% endblock %}
+
+{% if isactive_nuevo_comercial %}
+    class="is-active"
+{% endif %}
+
+{% block main %}
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="{{ url_for("menu_dashboard")  }}">Home</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Nuevo Comercial</a></li>
+          </ul>
+    </nav>
+
+    {% if resultado_insercion %}
+        <div id="mostrar_resultado">{{ resultado_insercion }}<br><br></div>
+    {% else %}
+        <div id="mostrar_resultado"><br><br></div>
+    {% endif %}
+    <h1>Nuevo comercial</h1>
+    <h3>Como medida de no rellenar mucho - ESTA DESACTIVADO - el required de los inputs del formulario</h3>
+    <h3>De momento solo url en imagen perfil</h3>
+    <form action="{{ url_for("recibir_datos_nuevo_comercial") }}" method="post">
+        <ul>
+            <li><input type="text" value="" name="nombre" placeholder="nombre"></li>
+            <li><input type="text" value="" name="apellidos" placeholder="apellidos"></li>
+            <li><input type="text" value="" name="email" placeholder="email"></li>
+            <li><input type="text" value="" name="telf" placeholder="tel"></li>
+            <li><input type="text" value="" name="usuario" placeholder="usuario"></li>
+            <li><input type="text" value="" name="password" placeholder="password"></li>
+            <li><input type="text" value="" name="imagen_perfil" placeholder="imagen perfil"></li>
+
+            <li><button type="submit">Enviar</button></li>
+        </ul>
+    </form>
+
+
+{% endblock %}

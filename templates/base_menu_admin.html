@@ -1,0 +1,145 @@
+{% extends "baseadmin.html" %}
+{% block body_attribs %}
+    class="fondo_menu_admin"
+{% endblock %}
+
+{% block content %}
+    <!-- preloader -->
+    <div id="preloader">
+		<div id="circulin"></div>
+	</div>
+
+        <!-- menu arriba -->
+<div class="navbar navbar-fixed-top nav-bar_fixed_top container-fluid" >
+    <div class="row  menu_enlinia" id="arriba_1">
+        <button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <span class="col-xs-12 glyphicon glyphicon-menu-hamburger pull-left glyphicon_font col-xs-12_fix_padding"></span>
+          </button>
+                <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            123123123123123
+          </div>
+        </div>
+        <div class="col-xs-10  fuente_listado_pisos">{% block titulo %}{% endblock %}</div>
+
+    </div>
+    <div class="row" id="arriba_2">
+        <hr class=" linea_listado">
+    </div>
+
+    <div class="row text-center paderecha  " id="arriba_3">
+    {% block menu_medicion %}
+    {% endblock %}
+    </div>
+
+    <div class="row center-block centro_contenido" id="contenido_central">
+        {% block contenido_central %}
+        {% endblock %}
+    </div>
+</div>
+
+<!-- fin menu arriba -->
+
+    <!-- menu abajo -->
+<div class="navbar navbar-fixed-bottom nav-bar_fixed_height" id="abajo">
+<div class="container-fluid">
+    <div class="row">
+        <div class=" rectangle7 menu_enlinia">
+
+
+        {% block footer_medidas %}
+                <div class=" col-xs-3 text-center">
+                    <a href="{{ url_for("menu_dashboard_comerciales") }}">
+                        <span class="glyphicon glyphicon-tag glyphicon_font_footer"></span>
+                        <div class="pageTitleC">LISTADO</div>
+                    </a>
+                </div>
+        {% endblock %}
+
+        {% block footer_alta_piso %}
+                <div class="col-xs-3 text-center">
+                     <a href="{{ url_for("alta_piso") }}">
+                    <span class="glyphicon glyphicon-plus glyphicon_font_footer"></span>
+                    <div class="pageTitleC ">AÑADIR</div>
+                         </a>
+                </div>
+        {% endblock %}
+
+        {% block footer_buscar %}
+                <div class="col-xs-3 text-center">
+                    <a href="{{ url_for("buscar_piso") }}">
+                    <span class="glyphicon glyphicon-search glyphicon_font_footer"></span>
+                    <div class="pageTitleC  " >BUSCAR</div>
+                        </a>
+                </div>
+        {% endblock %}
+
+        </div>
+    </div>
+</div>
+</div>
+<!-- fin menu abajo -->
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+
+
+
+
+
+        //pequeño loader
+        $(window).on('load', function () {
+            $("#circulin").fadeOut();
+            $("#preloader").delay(350).fadeOut("slow");
+            {#$("body").delay(350).css({#}
+            {#    "overflow": "visible"#}
+            {# }) ;#}
+        });
+
+
+
+
+        var div= $("#contenido_central");
+        // 10 de offset
+        let offset = 10;
+        var elemento_arriba = $("#arriba_1").height() + $("#arriba_2").height() + $("#arriba_3").height() + offset;
+        var elemento_abajo = $("#abajo").height();
+        div.css("height", ( $(window).height() - (elemento_arriba + elemento_abajo) )  + 'px' );
+
+        var sin_medicion_activo = true;
+
+        function cambiar_pest(elemento)
+        {
+
+            if (sin_medicion_activo === true)
+            {
+                sin_medicion_activo = !sin_medicion_activo;
+                var otro = document.getElementById("sin_medicion");
+
+                otro.classList.remove("active");
+                elemento.classList.add("active");
+            }
+            else
+            {
+
+                sin_medicion_activo = !sin_medicion_activo;
+                var otro_e = document.getElementById("con_medicion");
+
+                otro_e.classList.remove("active");
+                elemento.classList.add("active");
+
+            }
+
+
+        }
+
+
+
+
+
+
+    </script>
+{% endblock %}

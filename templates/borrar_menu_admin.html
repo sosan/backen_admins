@@ -1,0 +1,207 @@
+{% extends "baseadmin.html" %}
+{% block body_attribs %}
+class="fondo_menu_admin"
+{% endblock %}
+
+{% block content %}
+
+        <!-- menu arriba -->
+<div class="navbar navbar-fixed-top nav-bar_fixed_top container-fluid" >
+    <div class="row  menu_enlinia" id="arriba_1">
+        <button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <span class="col-xs-12 glyphicon glyphicon-menu-hamburger pull-left glyphicon_font col-xs-12_fix_padding"></span>
+          </button>
+                <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            123123123123123
+          </div>
+        </div>
+        <div class="col-xs-12 paderecha fuente_listado_pisos">LISTADO PISOS</div>
+        <span class="col-xs-12 glyphicon glyphicon-screenshot pull-right glyphicon_font paderecha col-xs-12_fix_padding"></span>
+    </div>
+    <div class="row" id="arriba_2">
+        <hr class=" linea_listado">
+    </div>
+
+    <div class="row text-center paderecha  " id="arriba_3">
+
+        <ul class="nav nav-tabs tabs_fixed ul_fixed">
+            <li role="presentation" class="active" id="sin_medicion" onclick="cambiar_pest(this);"><a href="#" >SIN MEDICION</a></li>
+            <li role="presentation" class="" id="con_medicion" onclick="cambiar_pest(this);"><a href="#" >CON MEDICION</a></li>
+        </ul>
+    </div>
+
+<div class="row center-block centro_contenido" id="contenido_central">
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+    {% if listado%}
+        <div class="container">
+            <ul id="lista_menu">
+                {% for elemento in listado %}
+                <li>
+                    <a href="{{ url_for("alta_piso") }}">
+                        <div class="">
+                            Calle: {{ elemento["calle"] }} Numero: {{ elemento["numero"] }}
+                        </div>
+                        <div class="">
+                            {{elemento["precio"]}}
+
+                        </div>
+                        <div class="">
+                            <img src="{{ elemento["foto"] }}">
+
+                        </div>
+
+                    </a>
+
+                </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+
+
+
+
+</div>
+
+<!-- fin menu arriba -->
+
+
+
+
+
+
+
+{#    <!-- menu abajo -->#}
+<div class="navbar navbar-fixed-bottom nav-bar_fixed_height" id="abajo">
+<div class="container-fluid">
+    <div class="row">
+        <div class=" rectangle7 menu_enlinia">
+
+                <div class=" col-xs-5 show_clicked_abajo text-center">
+                    <a href="{{ url_for("tomar_medidas_light") }}">
+                    <span class="glyphicon glyphicon-tag glyphicon_font_footer"></span>
+                    <div class="pageTitleC">MEDIDAS</div>
+                        </a>
+                </div>
+
+                <div class="col-xs-5 text-center">
+                    <a href="{{ url_for("tomar_medidas_pago") }}">
+                    <span class="glyphicon glyphicon-euro glyphicon_font_footer"></span>
+                    <div class="pageTitleC  ">PRO</div>
+                         </a>
+                </div>
+
+
+
+                <div class="col-xs-5 text-center">
+                     <a href="{{ url_for("alta_piso") }}">
+                    <span class="glyphicon glyphicon-plus glyphicon_font_footer"></span>
+                    <div class="pageTitleC ">AÑADIR</div>
+                         </a>
+                </div>
+
+
+                <div class="col-xs-5 text-center">
+                    <a href="{{ url_for("ver_piso_para_modificar") }}">
+                    <span class="glyphicon glyphicon-pencil glyphicon_font_footer"></span>
+                    <div class="pageTitleC">MODIFICAR</div>
+                        </a>
+                </div>
+
+                <div class="col-xs-5 text-center">
+                    <a href="{{ url_for("buscar_piso") }}" onclick="click_buscar(this);">
+                    <span class="glyphicon glyphicon-search glyphicon_font_footer"></span>
+                    <div class="pageTitleC  " >BUSCAR</div>
+                        </a>
+                </div>
+
+        </div>
+    </div>
+</div>
+</div>
+{#<!-- fin menu abajo -->#}
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        var div= $('#contenido_central');
+        // 10 de offset
+        let offset = 10;
+        var elemento_arriba = $("#arriba_1").height() + $("#arriba_2").height() + $("#arriba_3").height() + offset;
+        var elemento_abajo = $("#abajo").height();
+        div.css("height", ( $(window).height() - (elemento_arriba + elemento_abajo) )  + 'px' );
+
+
+        var sin_medicion_activo = true;
+        {#var con = document.getElementById("con_medicion");#}
+        {#var sin = document.getElementById("sin_medicion");#}
+        {##}
+        {#con.classList.remove("active");#}
+        {#sin.classList.add("active");#}
+
+
+        function cambiar_pest(elemento)
+        {
+
+            if (sin_medicion_activo === true)
+            {
+                sin_medicion_activo = !sin_medicion_activo;
+                var otro = document.getElementById("sin_medicion");
+
+                otro.classList.remove("active");
+                elemento.classList.add("active");
+            }
+            else
+            {
+
+                sin_medicion_activo = !sin_medicion_activo;
+                var otro_e = document.getElementById("con_medicion");
+
+                otro_e.classList.remove("active");
+                elemento.classList.add("active");
+
+            }
+
+
+        }
+        
+        
+        function click_buscar(elemento) {
+
+        }
+
+        function click_anadir(elemento) {
+
+        }
+
+        function click_modificar(elemento) {
+
+        }
+
+        function click_pro(elemento) {
+
+        }
+
+        function click_medidas(elemento) {
+
+        }
+
+
+
+
+
+
+    </script>
+{% endblock %}
